@@ -2,6 +2,9 @@ package Server;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -20,18 +23,21 @@ public class Server extends Thread {
 			System.out.println("服务器已启动。。。");
 			while (true) {
 				s = ss.accept();
+				File file = new File("target.pdf");
+
+				DataInputStream fis = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
+				DataOutputStream dos = new DataOutputStream(s.getOutputStream());
 				
-				FileInputStream fis = new FileInputStream("target.pdf");
-				BufferedInputStream bis = new BufferedInputStream(fis);
+				int size = (int) file.length();
+				byte [] out = new byte [size];
+				while ((fis.read(out))!= -1) {
+					dos.write(out);
+				}
 				
-				FileOutputStream fos = new FileOutputStream("target.pdf");
-				BufferedOutputStream bos = new BufferedOutputStream(fos);
-				
-				byte [] out = new byte [100];
-				bis.read(out);
-				
-				PrintWriter pw = new PrintWriter(bos, true);
-				pw.println(s.getOutputStream());
+				dos.close();
+				fis.close();
+				s.close();
+				System.out.println("文件传输完成");
 
 			}
 
