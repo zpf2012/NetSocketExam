@@ -62,8 +62,10 @@ class get extends Thread{
 				Element low = doc.createElement("low");
 				
 				String[] arr = line.split(",");
+				String [] arr3 = arr[0].split("\"");
+//				System.out.println(arr3[1]);
 		        
-	        	name.setTextContent(arr[0]);
+	        	name.setTextContent(arr3[1]);
 				open.setTextContent(arr[1]);
 				close.setTextContent(arr[2]);
 				current.setTextContent(arr[3]);
@@ -95,13 +97,16 @@ class get extends Thread{
 			}
 			
 			String[] arr2 = line.split(",");
+			System.out.println(arr2[0]);
+			String [] arr3 = arr2[0].split("\"");
+			System.out.println(arr3[1]);
 			 
 
 			
 			File file = new File("stock.json");
 			FileOutputStream fos=new FileOutputStream(file);
 			JsonObject f = new JsonObject();
-			f.addProperty("name",arr2[0]);
+			f.addProperty("name",arr3[1]);
 			f.addProperty("open",arr2[1]);
 			f.addProperty("close",arr2[2]);
 			f.addProperty("current",arr2[3]);
